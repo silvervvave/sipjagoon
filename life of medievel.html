@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>중세에서 살아남기</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="dashboard">
+      <div class="header">
+        <h1>중세에서 살아남기</h1>
+        <p>스테이지 <span id="turn-counter">1</span> / 15</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">왕권</div>
+          <div class="stat-value" id="val-king">50</div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-king" style="width: 50%;"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">교황권</div>
+          <div class="stat-value" id="val-pope">50</div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-pope" style="width: 50%;"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">제후·기사</div>
+          <div class="stat-value" id="val-noble">50</div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-noble" style="width: 50%;"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">상인</div>
+          <div class="stat-value" id="val-merchant">50</div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-merchant" style="width: 50%;"></div></div>
+        </div>
+      </div>
+
+      <div id="game-active-area">
+        <div class="scenario-card">
+          <div class="scenario-meta" id="scenario-year">1095년</div>
+          <h2 class="scenario-title" id="scenario-title">클레르몽 공의회</h2>
+          <p class="scenario-text" id="scenario-text">교황이 '셀주크 튀르크로부터 성지 예루살렘을 탈환하자!'며 십자군 파병을 요청해 왔습니다. 영주와 기사들을 보내시겠습니까?</p>
+        </div>
+
+        <div class="action-grid">
+          <button id="btn-a">신의 뜻이다! 참전하라!</button>
+          <button id="btn-b">우리 영지를 지키는 게 우선이다.</button>
+        </div>
+      </div>
+
+      <div id="result-area" class="result-card hidden">
+        <div class="result-title">결과</div>
+        <div class="result-text" id="result-text">선택 결과가 여기에 표시됩니다.</div>
+        <button class="confirm-btn" id="btn-next">다음 단계로</button>
+      </div>
+
+      <div id="end-screen-area" class="end-screen">
+        <div class="end-title" id="end-title">게임 오버</div>
+        <div class="end-text" id="end-text">설명</div>
+        <button class="restart-btn" id="btn-restart">다시 시작하기</button>
+      </div>
+
+      <div class="log-area" id="log-area">역사적 선택을 내려주세요. 하나의 세력이라도 0이 되면 게임 오버됩니다.</div>
+    </div>
+  </body>
+</html>

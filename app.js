@@ -135,11 +135,11 @@ function calcScore(st) {
 }
 
 function getScoreTier(score) {
-  if (score >= 84) return { tier:'S', name:'절대 왕정의 완성' };
-  if (score >= 76) return { tier:'A', name:'강력한 중앙집권' };
-  if (score >= 68) return { tier:'B', name:'왕권 우위 국가' };
-  if (score >= 60) return { tier:'C', name:'균형 잡힌 봉건 왕국' };
-  return             { tier:'D', name:'불안정한 왕권' };
+  if (score >= 84) return { tier:'챌린저', name:'절대 왕정의 완성' };
+  if (score >= 76) return { tier:'골드', name:'강력한 중앙집권' };
+  if (score >= 68) return { tier:'실버', name:'왕권 우위 국가' };
+  if (score >= 60) return { tier:'브론즈', name:'균형 잡힌 봉건 왕국' };
+  return             { tier:'아이언', name:'불안정한 왕권' };
 }
 
 function updateUI() {

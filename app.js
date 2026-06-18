@@ -124,6 +124,24 @@ const scenarios = [
 let currentTurn = 0;
 let stats = { king: 50, pope: 50, noble: 50, merchant: 50 };
 
+function calcScore(st) {
+  const popeBalance = 50 - Math.abs(st.pope - 50);
+  return Math.round(
+    st.king        * 0.40 +
+    st.merchant    * 0.30 +
+    (100-st.noble) * 0.20 +
+    popeBalance    * 0.20
+  );
+}
+
+function getScoreTier(score) {
+  if (score >= 84) return { tier:'S', name:'절대 왕정의 완성' };
+  if (score >= 76) return { tier:'A', name:'강력한 중앙집권' };
+  if (score >= 68) return { tier:'B', name:'왕권 우위 국가' };
+  if (score >= 60) return { tier:'C', name:'균형 잡힌 봉건 왕국' };
+  return             { tier:'D', name:'불안정한 왕권' };
+}
+
 function updateUI() {
   ['king', 'pope', 'noble', 'merchant'].forEach(key => {
     const val = stats[key];
@@ -180,7 +198,9 @@ function checkGameOver(isResultPhase = false, resultMessage = "") {
       if (key === 'merchant' && stats[key] === 0) reason = "국가가 파산합니다.";
       if (key === 'merchant' && stats[key] === 100) reason = "상업 세력이 돈으로 국가를 장악해 혼란이 발생합니다.";
 
-      showEndScreen("패배", reason);
+      const score = calcScore(stats);
+      const { tier, name } = getScoreTier(score);
+      showEndScreen(`패배 [${tier}] — ${name}`, `${reason}\n\n최종 점수: ${score}점`);
       return true;
     }
   }
@@ -189,18 +209,24 @@ function checkGameOver(isResultPhase = false, resultMessage = "") {
   if (currentTurn >= scenarios.length) {
     // 진 엔딩: 왕권 >= 60 && 상업 >= 50
     if (stats.king >= 60 && stats.merchant >= 50) {
-      showEndScreen("승리 - 중앙 집권 국가 달성", "축하합니다! 중세의 봉건제는 무너졌습니다. 당신은 상공업자들의 막대한 재정 지원을 바탕으로 상비군을 기르고, 강력한 중앙 집권 국가를 이룩하셨습니다.");
+      const score = calcScore(stats);
+      const { tier, name } = getScoreTier(score);
+      showEndScreen(`승리 [${tier}] — ${name}`, `축하합니다! 중세의 봉건제는 무너졌습니다. 당신은 상공업자들의 막대한 재정 지원을 바탕으로 상비군을 기르고, 강력한 중앙 집권 국가를 이룩하셨습니다.\n\n최종 점수: ${score}점`);
       return true;
     }
 
     // 노멀 엔딩: 교황권이나 영주 수치가 왕권보다 높을 때
     if (stats.pope > stats.king || stats.noble > stats.king) {
-      showEndScreen("중세는 영원하리", "살아남는 데는 성공했지만, 여전히 교황과 귀족들의 눈치를 봐야 합니다. 역사의 흐름은 바뀌고 있지만, 당신의 국가는 아직 중세에 머무릅니다.");
+      const score = calcScore(stats);
+      const { tier, name } = getScoreTier(score);
+      showEndScreen(`중세는 영원하리 [${tier}] — ${name}`, `살아남는 데는 성공했지만, 여전히 교황과 귀족들의 눈치를 봐야 합니다. 역사의 흐름은 바뀌고 있지만, 당신의 국가는 아직 중세에 머무릅니다.\n\n최종 점수: ${score}점`);
       return true;
     }
 
     // 그 외: 기본 생존 엔딩
-    showEndScreen("생존", "모든 위기를 넘기고 당신은 나라를 지켰습니다. 그러나 완전한 승리라 할 수 없습니다. 다양한 세력과 타협하며 나라를 이어가야 합니다.");
+    const score = calcScore(stats);
+    const { tier, name } = getScoreTier(score);
+    showEndScreen(`생존 [${tier}] — ${name}`, `모든 위기를 넘기고 당신은 나라를 지켰습니다. 그러나 완전한 승리라 할 수 없습니다. 다양한 세력과 타협하며 나라를 이어가야 합니다.\n\n최종 점수: ${score}점`);
     return true;
   }
 
